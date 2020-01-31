@@ -12,9 +12,10 @@ class Bird:
         self.score = score
 
     def flap(self):
-        self.y_pos -= y_vel
+        self.y_vel = -10
 
     def fall(self):
+        self.y_vel += 1
         self.y_pos += y_vel
 
     def update_score(self):

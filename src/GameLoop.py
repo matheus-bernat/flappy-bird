@@ -1,19 +1,23 @@
-import Game_State
+import pygame
+from GameState import GameState
+
+WIDTH  = 400
+HEIGHT = 400
 
 class GameLoop:
     def __init__(self):
         pygame.init()
-        width  = 400
-        height = 400
-        window = pygame.display.set_mode((width,height))
-        game_state = Game_State(window)
-    def update():
-        game_state.update()
+        self.window = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.game_state = GameState(self.window)
+
+    def update(self):
+        self.game_state.update()
 
 def main():
-    game = GameLoop(something)
+    game = GameLoop()
     while True:
         game.update()
+        pygame.display.flip()
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     main()

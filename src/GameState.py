@@ -30,7 +30,7 @@ class GameState:
             pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[1])
 
     def spawn_obstacles(self):
-        obstacle_x_pos = 800
+        obstacle_x_pos = Constants.WINDOW_WIDTH
         for i in range(0, 6):
             self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, 3))
             obstacle_x_pos += OBSTACLE_SPACING

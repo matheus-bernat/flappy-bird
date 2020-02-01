@@ -1,5 +1,6 @@
 from Bird import *
 from Obstacle import *
+from Score_handler import Score_handler
 import pygame
 import Constants
 
@@ -24,6 +25,7 @@ class GameState:
         self.sprites_group = []
         pygame.font.init()
         self.a_font = pygame.font.SysFont('Comic Sans MS', 30)
+        self.score_handler = Score_handler()
 
     def draw(self):
         self.game_window.fill(0) # clean screen
@@ -32,9 +34,8 @@ class GameState:
             pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[0])
             pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[1])
         textsurface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
+        self.score_handler.blit_highscores(self.game_window,self.a_font)
         self.game_window.blit(textsurface,(0,0))
-
-
 
     def spawn_obstacles(self):
         obstacle_x_pos = Constants.WINDOW_WIDTH
@@ -54,6 +55,7 @@ class GameState:
         if not self.flappy_bird.alive:
             self.running = False
             print('YOU GOT %d POINTS!' % self.flappy_bird.score)
+            print(self.score_handler.view_highscores())
         self.draw()
         self.give_points()
 
@@ -71,6 +73,7 @@ class GameState:
         # Bird with walls
         if (self.flappy_bird.y_pos+15 > Constants.WINDOW_HEIGHT) or (self.flappy_bird.y_pos-15 < self.flappy_bird.bird_height):
             self.flappy_bird.kill_flappy()
+            self.score_handler.add_score(self.flappy_bird.score)
 
         # Bird with obstacles
         """for obstacle in self.obstacles_list:

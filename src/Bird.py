@@ -4,7 +4,7 @@ import Constants
 GRAVITY = .3
 
 class Bird:
-    def __init__(self, x_pos, y_pos, y_vel, alive, width, height, score, sprite):
+    def __init__(self, x_pos, y_pos, y_vel, alive, width, height, score):
         self.bird_width = width
         self.bird_height = height
         self.alive = True
@@ -12,7 +12,7 @@ class Bird:
         self.y_pos = y_pos
         self.y_vel = y_vel
         self.score = score
-        self.sprite = sprite
+        #self.sprite = sprite
 
     def flap(self):
         self.y_vel = -8

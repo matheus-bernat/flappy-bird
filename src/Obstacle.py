@@ -2,13 +2,13 @@ import pygame, Constants
 from random import randrange
 
 class Obstacle:
-    def __init__(self, x_pos, width, gap, speed, sprite):
+    def __init__(self, x_pos, width, gap, speed):
         self.x_pos = x_pos
         self.gap = gap
         self.y_pos = randrange(0,Constants.WINDOW_HEIGHT-self.gap)
         self.width = width
         self.speed = speed
-        self.sprite = sprite
+        #self.sprite = sprite
         self.shape = [pygame.Rect(self.x_pos,0,self.width,self.y_pos), pygame.Rect(self.x_pos,self.y_pos+gap,self.width,800)]
 
 

@@ -21,12 +21,12 @@ class GameState:
 
     def draw(self):
         self.game_window.fill(0) # clean screen
-        pygame.draw.circle(self.game_window, 255, [self.flappy_bird.x_pos, round(self.flappy_bird.y_pos)], 15)
+        pygame.draw.circle(self.game_window, Constants.RED, [self.flappy_bird.x_pos, round(self.flappy_bird.y_pos)], 15)
         for obstacle in self.obstacles_list:
-            pygame.draw.rect(self.game_window, 150, obstacle.shape[0])
-            pygame.draw.rect(self.game_window, 50, obstacle.shape[1])
+            pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[0])
+            pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[1])
 
-    def spawn_obstacle(self):
+    def spawn_obstacles(self):
         obstacle_x_pos = 800
         for i in range(0, 6):
             self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, 3))
@@ -61,9 +61,9 @@ class GameState:
             self.flappy_bird.kill_flappy()
 
         # Bird with obstacles
-        for obstacle in self.obstacles_list:
+        """for obstacle in self.obstacles_list:
             if pygame.sprite.spritecollide(sprite, group, False, collided = has_collided):
-                self.flappy_bird.kill_flappy()
+                self.flappy_bird.kill_flappy()"""
 
     def has_collided(self, object1, object2):
         # if collision:

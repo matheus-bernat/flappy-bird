@@ -9,6 +9,7 @@ class GameLoop:
         pygame.init()
         self.window = pygame.display.set_mode((WIDTH, HEIGHT))
         self.game_state = GameState(self.window)
+        clock = pygame.time.Clock()
 
     def update(self):
         self.game_state.update()

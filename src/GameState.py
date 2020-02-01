@@ -1,7 +1,6 @@
 from Bird import *
 from Obstacle import *
 import pygame
-import Constants
 
 INIT_BIRD_X_POS = 50
 INIT_BIRD_Y_POS = 50
@@ -10,7 +9,7 @@ BIRD_WIDTH = 5
 BIRD_HEIGHT = 5
 BIRD_ACCEL = 5
 OBSTACLE_WIDTH = 50
-OBSTACLE_GAP = 100
+OBSTACLE_GAP = 200
 
 class GameState:
     def __init__(self, game_window):
@@ -22,15 +21,16 @@ class GameState:
 
     def draw(self):
         self.game_window.fill(0) # clean screen
-        pygame.draw.circle(self.game_window, Constants.RED, [self.flappy_bird.x_pos, round(self.flappy_bird.y_pos)], 15)
+        pygame.draw.circle(self.game_window, 255, [self.flappy_bird.x_pos, round(self.flappy_bird.y_pos)], 15)
         for obstacle in self.obstacles_list:
-            pygame.draw.circle(self.game_window, Constants.BLUE, [obstacle.x_pos, 100], 30)
+            pygame.draw.rect(self.game_window, 150, obstacle.shape[0])
+            pygame.draw.rect(self.game_window, 50, obstacle.shape[1])
 
     def spawn_obstacle(self):
-        for i in range(0, 5):
-            obstacle_x_pos = 800
+        obstacle_x_pos = 800
+        for i in range(0, 6):
             self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, 3))
-            obstacle_x_pos += 50
+            obstacle_x_pos += 250
 
     def update(self):
         """
@@ -39,7 +39,8 @@ class GameState:
         for obstacle in self.obstacles_list:
             obstacle.move()
             if obstacle.is_out_of_screen():
-                obstacle.x_pos += 800
+                obstacle.respawn(1200)
+
         self.flappy_bird.update()
         self.draw()
         self.input_handler()

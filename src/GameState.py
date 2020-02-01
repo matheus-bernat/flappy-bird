@@ -99,9 +99,9 @@ class GameState:
 
     def give_points(self):
         for obstacle in self.obstacles_list:
-            if obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos < 0 and \
-                obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos >= -OBSTACLE_SPEED:
-                self.flappy_bird.score += 1
+            if obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x < 0 and \
+                obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
+                self.flappy_bird.score += 0.5
 
     def input_handler(self):
         for event in pygame.event.get():

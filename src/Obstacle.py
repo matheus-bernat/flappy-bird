@@ -1,25 +1,22 @@
-import pygame, Constants
+import pygame
+import Constants
 from random import randrange
 
-class Obstacle:
-    def __init__(self, x_pos, width, gap, speed):
-        self.x_pos = x_pos
-        self.gap = gap
-        self.y_pos = randrange(0,Constants.WINDOW_HEIGHT-self.gap)
-        self.width = width
+class Obstacle(pygame.sprite.Sprite):
+    def __init__(self, x_pos, y_pos, speed, image_file):
+        pygame.sprite.Sprite.__init__(self)
         self.speed = speed
-        self.shape = [pygame.Rect(self.x_pos,0,self.width,self.y_pos), pygame.Rect(self.x_pos,self.y_pos+self.gap,self.width,Constants.WINDOW_HEIGHT)]
-        #self.sprite = sprite
-        self.score = 0
+        self.image = pygame.transform.scale(pygame.image.load(image_file), (50, 500))
+        self.rect = self.image.get_rect()
+        self.rect.x = x_pos
+        self.rect.y = y_pos
 
     def move(self):
-        self.shape[0] = self.shape[0].move(-self.speed,0)
-        self.shape[1] = self.shape[1].move(-self.speed,0)
+        self.rect.x -= self.speed
 
-    def respawn(self, new_x):
-        self.y_pos = randrange(0,Constants.WINDOW_HEIGHT-self.gap)
-        new_x += self.shape[0].x
-        self.shape = [pygame.Rect(new_x,0,self.width,self.y_pos), pygame.Rect(new_x,self.y_pos+self.gap,self.width,Constants.WINDOW_HEIGHT)]
+    def respawn(self, new_x, new_y):
+        self.rect.x += new_x
+        self.rect_y = new_y
 
     def is_out_of_screen(self):
-        return self.shape[0].x + self.width < 0
+        return self.rect.x + self.rect.size[0] < 0

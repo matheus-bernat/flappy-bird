@@ -1,6 +1,6 @@
 from Bird import *
 from Obstacle import *
-from Score_handler import Score_handler
+from ScoreHandler import ScoreHandler
 import pygame
 import Constants
 
@@ -25,7 +25,9 @@ class GameState:
         self.sprites_group = []
         pygame.font.init()
         self.a_font = pygame.font.SysFont('Comic Sans MS', 30)
-        self.score_handler = Score_handler()
+        self.score_handler = ScoreHandler()
+        self.curr_st_str = "game"
+        self.name = "game"
 
     def draw(self):
         self.game_window.fill(0) # clean screen
@@ -34,7 +36,6 @@ class GameState:
             pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[0])
             pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[1])
         textsurface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
-        self.score_handler.blit_highscores(self.game_window,self.a_font)
         self.game_window.blit(textsurface,(0,0))
 
     def spawn_obstacles(self):
@@ -48,14 +49,12 @@ class GameState:
             obstacle.move()
             if obstacle.is_out_of_screen():
                 obstacle.respawn(OBSTACLE_SPACING*6)
-
         self.flappy_bird.update()
         self.input_handler()
         self.check_collisions()
         if not self.flappy_bird.alive:
             self.running = False
-            print('YOU GOT %d POINTS!' % self.flappy_bird.score)
-            print(self.score_handler.view_highscores())
+            self.reset()
         self.draw()
         self.give_points()
 
@@ -74,6 +73,7 @@ class GameState:
         if (self.flappy_bird.y_pos+15 > Constants.WINDOW_HEIGHT) or (self.flappy_bird.y_pos-15 < self.flappy_bird.bird_height):
             self.flappy_bird.kill_flappy()
             self.score_handler.add_score(self.flappy_bird.score)
+            self.curr_st_str = "score"
 
         # Bird with obstacles
         """for obstacle in self.obstacles_list:
@@ -89,3 +89,13 @@ class GameState:
             if obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos < 0 and \
                 obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos >= -OBSTACLE_SPEED:
                 self.flappy_bird.score += 1
+    def reset(self):
+        self.obstacles_list = []
+        self.spawn_obstacles()
+        self.flappy_bird.x_pos = 50
+        self.flappy_bird.y_pos = 50
+        self.flappy_bird.x_vel = 0
+        self.flappy_bird.y_vel = 0
+        self.flappy_bird.score = 0
+        self.flappy_bird.alive = True
+

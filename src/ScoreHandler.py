@@ -7,7 +7,7 @@ def first_column(string):
         i += 1
     return int(string[0:i])
 
-class Score_handler:
+class ScoreHandler:
     def __init__(self):
         self.scores_file_name = "../res/highscores.txt"
 
@@ -34,10 +34,9 @@ class Score_handler:
         output_string  += "\n" + "*"*40+"\n"
         return output_string
 
-    def blit_highscores(self, surface, a_font):
+    def blit_highscores(self, surface,x,y,a_font):
         text = self.view_highscores()
         lines = re.findall(".*",text)
-        x, y = (100, 50)
         for i in range(0,len(lines)):
             y += 20
             surface.blit(a_font.render(lines[i], False, [143,240,160]), (x,y))

@@ -1,4 +1,5 @@
 import pygame
+import Constants
 
 GRAVITY = .3
 
@@ -11,6 +12,7 @@ class Bird:
         self.y_pos = y_pos
         self.y_vel = y_vel
         self.score = score
+        #self.sprite = sprite
 
     def flap(self):
         self.y_vel = -8

@@ -11,7 +11,6 @@ class Bird(pygame.sprite.Sprite):
         self.y_vel = y_vel
         self.alive = True
         self.score = 0
-        #self.shape = pygame.Rect(self.x_pos, 300, self.bird_width, self.bird_height)
         self.image = pygame.transform.scale(pygame.image.load('../res/bird.png'), (48, 36))
         #self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect() # Get the dimensions of the sprite
@@ -22,7 +21,6 @@ class Bird(pygame.sprite.Sprite):
         self.y_vel = -8
 
     def fall(self):
-        #self.shape = self.shape.move(0, self.y_vel)
         self.rect.y += self.y_vel
         if self.y_vel < 10:
             self.y_vel += GRAVITY

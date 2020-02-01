@@ -13,7 +13,9 @@ class GameLoop:
 
 def main():
     game = GameLoop()
+    clock = pygame.time.Clock()
     while game.game_state.running:
+        clock.tick(60)
         game.update()
         pygame.display.flip()
 

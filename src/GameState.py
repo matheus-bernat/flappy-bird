@@ -17,12 +17,13 @@ class GameState:
         self.obstacles_list = []
         self.spawn_obstacle()
         self.game_window = game_window
+        self.running = True
 
     def draw(self):
         self.game_window.fill(0) # clean screen
-        pygame.draw.circle(self.game_window, 255, (round(self.flappy_bird.x_pos), round(self.flappy_bird.y_pos)), 15)
+        pygame.draw.circle(self.game_window, 255, [self.flappy_bird.x_pos, round(self.flappy_bird.y_pos)], 15)
         for obstacle in self.obstacles_list:
-            pygame.draw.circle(self.game_window, 50, [obstacle.x_pos, 100], 30)
+            pygame.draw.circle(self.game_window, 150, [obstacle.x_pos, 100], 30)
 
     def spawn_obstacle(self):
         for i in range(0, 5):
@@ -37,11 +38,17 @@ class GameState:
         for obstacle in self.obstacles_list:
             obstacle.move()
             if obstacle.is_out_of_screen():
-                obstacle.x_pos += 250
-
-<<<<<<< HEAD
+                obstacle.x_pos += 800
         self.flappy_bird.update()
-=======
->>>>>>> 7b5b29b24a2da77447d882a4d8de21fbd0b6dfad
         self.draw()
-        self.flappy_bird.update()
+        self.input_handler()
+
+    def input_handler(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.flappy_bird.flap()
+                if event.key == pygame.K_ESCAPE:
+                    self.running = False
+            if event.type == pygame.QUIT:
+                self.running = False

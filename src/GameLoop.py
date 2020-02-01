@@ -15,7 +15,7 @@ class GameLoop:
 
 def main():
     game = GameLoop()
-    while True:
+    while game.game_state.running:
         game.update()
         pygame.display.flip()
 

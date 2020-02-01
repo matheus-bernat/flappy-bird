@@ -1,5 +1,5 @@
 import pygame
-GRAVITY = .1
+GRAVITY = .01
 
 class Bird:
     def __init__(self, x_pos, y_pos, y_vel, alive, width, height, score):
@@ -12,12 +12,12 @@ class Bird:
         self.score = score
 
     def flap(self):
-        self.y_vel = -3
+        self.y_vel = -2
 
     def fall(self):
         self.y_pos += self.y_vel
         if self.y_vel < 2:
-            self.y_vel += .1
+            self.y_vel += GRAVITY
 
     def update_score(self):
         self.score += 1
@@ -27,13 +27,3 @@ class Bird:
 
     def update(self):
         self.fall()
-        event = pygame.event.poll()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                self.flap()
-                print("hi")
-
-    """def input_handler(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE]:
-            self.flap()"""

@@ -12,7 +12,7 @@ class Bird(pygame.sprite.Sprite):
         self.alive = True
         self.score = 0
         #self.shape = pygame.Rect(self.x_pos, 300, self.bird_width, self.bird_height)
-        self.image = pygame.image.load('../res/bird.png')
+        self.image = pygame.transform.scale(pygame.image.load('../res/bird.png'), (48, 36))
         #self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect() # Get the dimensions of the sprite
         self.rect.x = x_pos

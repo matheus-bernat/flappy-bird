@@ -1,8 +1,8 @@
 import pygame
 from GameState import GameState
 
-WIDTH  = 400
-HEIGHT = 400
+WIDTH  = 1000
+HEIGHT = 800
 
 class GameLoop:
     def __init__(self):

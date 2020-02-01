@@ -24,7 +24,7 @@ class GameState:
         self.running = True
         self.sprites_group = []
         pygame.font.init()
-        self.a_font = pygame.font.SysFont('Comic Sans MS', 30)
+        self.a_font = pygame.font.SysFont('Courier', 30)
         self.score_handler = ScoreHandler()
         self.curr_st_str = "game"
         self.name = "game"

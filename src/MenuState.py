@@ -10,7 +10,7 @@ class MenuState:
         self.curr_st_str = "menu"
         self.curser_pos = 0
         pygame.font.init()
-        self.a_font = pygame.font.SysFont('Comic Sans MS', 30)
+        self.a_font = pygame.font.SysFont('Courier', 30)
 
     def input_handler(self):
         for event in pygame.event.get():
@@ -31,16 +31,16 @@ class MenuState:
 
     def draw(self):
         self.window.fill(0)
-        x_pos = Constants.WINDOW_WIDTH/2 - 200
-        y_pos = Constants.WINDOW_HEIGHT/2 - 200
+        x_pos = 50
+        y_pos = Constants.WINDOW_HEIGHT - 170
         textsurface = self.a_font.render('PLAY', False, [143,240,160])
         self.window.blit(textsurface,(x_pos, y_pos))
         textsurface = self.a_font.render('HIGHSCORES', False, [143,240,160])
-        self.window.blit(textsurface,(x_pos,y_pos+100))
+        self.window.blit(textsurface,(x_pos,y_pos+50))
         textsurface = self.a_font.render('EXIT', False, [143,240,160])
-        self.window.blit(textsurface,(x_pos,y_pos+200))
+        self.window.blit(textsurface,(x_pos,y_pos+100))
         textsurface = self.a_font.render('*', False, [143,240,160])
-        self.window.blit(textsurface,(x_pos-10,y_pos+self.curser_pos*100))
+        self.window.blit(textsurface,(x_pos-20,y_pos+self.curser_pos*50))
 
     def update(self):
         self.draw()

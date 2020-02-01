@@ -10,7 +10,7 @@ class ScoreState:
         self.curr_st_str = "score"
         self.curser_pos = 0
         pygame.font.init()
-        self.a_font = pygame.font.SysFont('Comic Sans MS', 30)
+        self.a_font = pygame.font.SysFont('Courier', 30)
 
     def input_handler(self):
         for event in pygame.event.get():
@@ -29,15 +29,15 @@ class ScoreState:
 
     def draw(self):
         self.window.fill(0)
-        self.score_handler.blit_highscores(self.window,Constants.WINDOW_WIDTH/2-400,20,self.a_font)
-        x_pos = Constants.WINDOW_WIDTH - 200
-        y_pos = 20
+        self.score_handler.blit_highscores(self.window,Constants.WINDOW_WIDTH/2-300,20,self.a_font)
+        x_pos = 50
+        y_pos = Constants.WINDOW_HEIGHT - 120
         textsurface = self.a_font.render('MENU', False, [143,240,160])
         self.window.blit(textsurface,(x_pos, y_pos))
         textsurface = self.a_font.render('EXIT', False, [143,240,160])
         self.window.blit(textsurface,(x_pos,y_pos+50))
         textsurface = self.a_font.render('*', False, [143,240,160])
-        self.window.blit(textsurface,(x_pos-10,y_pos+self.curser_pos*50))
+        self.window.blit(textsurface,(x_pos-20,y_pos+self.curser_pos*50))
 
     def update(self):
         self.draw()

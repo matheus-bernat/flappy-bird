@@ -13,11 +13,13 @@ class Bird:
         self.y_vel = y_vel
         self.score = score
         #self.sprite = sprite
+        self.shape = pygame.Rect(self.x_pos, 300, self.bird_width, self.bird_height)
 
     def flap(self):
         self.y_vel = -8
 
     def fall(self):
+        self.shape = self.shape.move(0, self.y_vel)
         self.y_pos += self.y_vel
         if self.y_vel < 10:
             self.y_vel += GRAVITY

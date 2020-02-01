@@ -9,7 +9,7 @@ class Obstacle:
         self.width = width
         self.speed = speed
         #self.sprite = sprite
-        self.shape = [pygame.Rect(self.x_pos,0,self.width,self.y_pos), pygame.Rect(self.x_pos,self.y_pos+gap,self.width,800)]
+        self.shape = [pygame.Rect(self.x_pos, 0, self.width, self.y_pos), pygame.Rect(self.x_pos, self.y_pos + gap, self.width, 800)]
 
 
     def move(self):

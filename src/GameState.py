@@ -11,6 +11,7 @@ BIRD_ACCEL = 5
 OBSTACLE_WIDTH = 50
 OBSTACLE_GAP = 200
 OBSTACLE_SPACING = 250
+OBSTACLE_SPEED = 3
 
 
 class GameState:
@@ -21,6 +22,8 @@ class GameState:
         self.game_window = game_window
         self.running = True
         self.sprites_group = []
+        pygame.font.init()
+        self.a_font = pygame.font.SysFont('Comic Sans MS', 30)
 
     def draw(self):
         self.game_window.fill(0) # clean screen
@@ -28,11 +31,15 @@ class GameState:
         for obstacle in self.obstacles_list:
             pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[0])
             pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[1])
+        textsurface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
+        self.game_window.blit(textsurface,(0,0))
+
+
 
     def spawn_obstacles(self):
         obstacle_x_pos = Constants.WINDOW_WIDTH
         for i in range(0, 6):
-            self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, 3))
+            self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, OBSTACLE_SPEED))
             obstacle_x_pos += OBSTACLE_SPACING
 
     def update(self):
@@ -47,6 +54,7 @@ class GameState:
         if not self.flappy_bird.alive:
             self.running = False
         self.draw()
+        self.give_points()
 
     def input_handler(self):
         for event in pygame.event.get():
@@ -72,3 +80,8 @@ class GameState:
         # if collision:
         return True
         return False
+    def give_points(self):
+        for obstacle in self.obstacles_list:
+            if obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos < 0 and \
+                obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos >= -OBSTACLE_SPEED:
+                self.flappy_bird.score += 1

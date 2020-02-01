@@ -1,3 +1,4 @@
+import pygame
 
 GRAVITY = 10
 
@@ -15,11 +16,20 @@ class Bird:
         self.y_vel = -10
 
     def fall(self):
-        self.y_vel = 1
-        self.y_pos += self.y_vel
+        if self.y_pos < 550:
+            self.y_vel += 1
+            self.y_pos += self.y_vel
 
     def update_score(self):
         self.score += 1
 
     def kill_flappy(self):
         self.alive = False
+
+    def update(self):
+        self.fall()
+        event = pygame.event.poll()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                self.flap()
+                print("hi")

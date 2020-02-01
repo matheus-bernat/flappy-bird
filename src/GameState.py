@@ -39,5 +39,5 @@ class GameState:
             if obstacle.is_out_of_screen():
                 obstacle.x_pos += 250
 
-        self.flappy_bird.fall()
+        self.flappy_bird.update()
         self.draw()

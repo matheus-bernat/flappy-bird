@@ -1,13 +1,11 @@
 import pygame
 from GameState import GameState
-
-WIDTH  = 1000
-HEIGHT = 600
+import Constants
 
 class GameLoop:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.window = pygame.display.set_mode((Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT))
         self.game_state = GameState(self.window)
 
     def update(self):

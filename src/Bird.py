@@ -1,4 +1,6 @@
 import pygame
+
+
 GRAVITY = .01
 
 class Bird:

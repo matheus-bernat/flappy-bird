@@ -1,6 +1,7 @@
 from Bird import *
 from Obstacle import *
 import pygame
+import Constants
 
 INIT_BIRD_X_POS = 50
 INIT_BIRD_Y_POS = 50
@@ -21,9 +22,9 @@ class GameState:
 
     def draw(self):
         self.game_window.fill(0) # clean screen
-        pygame.draw.circle(self.game_window, 255, [self.flappy_bird.x_pos, round(self.flappy_bird.y_pos)], 15)
+        pygame.draw.circle(self.game_window, Constants.RED, [self.flappy_bird.x_pos, round(self.flappy_bird.y_pos)], 15)
         for obstacle in self.obstacles_list:
-            pygame.draw.circle(self.game_window, 150, [obstacle.x_pos, 100], 30)
+            pygame.draw.circle(self.game_window, Constants.BLUE, [obstacle.x_pos, 100], 30)
 
     def spawn_obstacle(self):
         for i in range(0, 5):

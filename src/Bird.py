@@ -1,6 +1,6 @@
 import pygame
 
-GRAVITY = .01
+GRAVITY = .3
 
 class Bird:
     def __init__(self, x_pos, y_pos, y_vel, alive, width, height, score):
@@ -13,11 +13,11 @@ class Bird:
         self.score = score
 
     def flap(self):
-        self.y_vel = -2
+        self.y_vel = -8
 
     def fall(self):
         self.y_pos += self.y_vel
-        if self.y_vel < 2:
+        if self.y_vel < 10:
             self.y_vel += GRAVITY
 
     def update_score(self):

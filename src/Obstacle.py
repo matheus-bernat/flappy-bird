@@ -12,5 +12,5 @@ class Obstacle:
     def move(self):
         self.x_pos -= self.speed
 
-    def is_out_of_screen():
+    def is_out_of_screen(self):
         return self.x_pos + self.width < 0

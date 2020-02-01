@@ -19,12 +19,14 @@ class GameState:
         self.game_window = game_window
 
     def draw(self):
-        pygame.draw.circle(self.game_window, 255, [self.flappy_bird.x_pos, self.flappy_bird.y_pos], 5)
-
+        self.game_window.fill(0) # clean screen
+        pygame.draw.circle(self.game_window, 255, [self.flappy_bird.x_pos, self.flappy_bird.y_pos], 15)
+        for obstacle in self.obstacles_list:
+            pygame.draw.circle(self.game_window, 50, [obstacle.x_pos, 100], 30)
 
     def spawn_obstacle(self):
         for i in range(0, 5):
-            obstacle_x_pos = 100
+            obstacle_x_pos = 800
             self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, 3))
             obstacle_x_pos += 50
 
@@ -32,10 +34,10 @@ class GameState:
         """
         Move obstacles, move bird downwards, redraw screen,
         """
-        """for obstacle in self.obstacles_list:
+        for obstacle in self.obstacles_list:
             obstacle.move()
             if obstacle.is_out_of_screen():
                 obstacle.x_pos += 250
 
-        self.flappy_bird.fall()"""
+        self.flappy_bird.fall()
         self.draw()

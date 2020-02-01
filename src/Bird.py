@@ -23,3 +23,12 @@ class Bird:
 
     def kill_flappy(self):
         self.alive = False
+
+    def input_handler(self):
+        key = pygame.key.get_pressed()
+        if key[pygame.K_RIGHT]:
+            self.flap()
+
+    def update(self):
+        input_handler()
+        fall()

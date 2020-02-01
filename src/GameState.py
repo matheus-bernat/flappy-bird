@@ -39,3 +39,4 @@ class GameState:
 
         self.flappy_bird.fall()"""
         self.draw()
+        self.flappy_bird.update()

@@ -53,6 +53,7 @@ class GameState:
         self.check_collisions()
         if not self.flappy_bird.alive:
             self.running = False
+            print('YOU GOT %d POINTS!' % self.flappy_bird.score)
         self.draw()
         self.give_points()
 

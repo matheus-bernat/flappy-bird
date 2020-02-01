@@ -2,6 +2,7 @@ from Bird import *
 from Obstacle import *
 import pygame
 import Constants
+import os
 
 INIT_BIRD_X_POS = 50
 INIT_BIRD_Y_POS = 50
@@ -15,42 +16,36 @@ OBSTACLE_SPEED = 3
 
 class GameState:
     def __init__(self, game_window):
+        self.game_window = game_window
+        self.sprites_group = pygame.sprite.Group()
         self.flappy_bird = Bird(INIT_BIRD_X_POS, INIT_BIRD_Y_POS, 0, BIRD_WIDTH, BIRD_HEIGHT)
         self.obstacles_list = []
-        self.spawn_obstacles()
-        self.game_window = game_window
-        self.running = True
-        self.sprites_group = []
+        #self.spawn_obstacles()
+        self.add_sprites_to_group()
         pygame.font.init()
         self.a_font = pygame.font.SysFont('Comic Sans MS', 30)
+        self.running = True
 
     def draw(self):
         self.game_window.fill(0) # clean screen
-        pygame.draw.rect(self.game_window, Constants.RED, self.flappy_bird.shape)
-        for obstacle in self.obstacles_list:
-            pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[0])
-            pygame.draw.rect(self.game_window, Constants.BLUE, obstacle.shape[1])
         text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
-        self.game_window.blit(text_surface,(0,0))
-        flappy_image = pygame.image.load()
-        self.game_window.blit(flappy_image, (self.flappy_bird.shape.x, self.flappy_bird.shape.y))
+        self.game_window.blit(text_surface, (0, 0))
+
+        self.sprites_group.draw(self.game_window) # draw all sprites on the game window
 
 
+    def add_sprites_to_group(self):
+        self.sprites_group.add(self.flappy_bird)
+        #for obstacle in self.obstacles_list:
+        #    self.sprites_group.add(obstacle)
 
-
-
-
-    def spawn_obstacles(self):
-        obstacle_x_pos = Constants.WINDOW_WIDTH
-        for i in range(0, 6):
-            self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, OBSTACLE_SPEED))
-            obstacle_x_pos += OBSTACLE_SPACING
 
     def update(self):
         for obstacle in self.obstacles_list:
             obstacle.move()
-            if obstacle.is_out_of_screen():
-                obstacle.respawn(OBSTACLE_SPACING*6)
+            #if obstacle.is_out_of_screen():
+                #obstacle.respawn(OBSTACLE_SPACING * 6)
+
 
         self.flappy_bird.update()
         self.input_handler()
@@ -61,6 +56,32 @@ class GameState:
         self.draw()
         self.give_points()
 
+    def check_collisions(self):
+        # Bird with walls
+        if (self.flappy_bird.rect.y + self.flappy_bird.rect.size[1]  > Constants.WINDOW_HEIGHT) or (self.flappy_bird.rect.y < 0):
+            self.flappy_bird.kill_flappy()
+
+        # Bird with obstacles
+
+        """hit_sprite = pygame.sprite.spritecollisionany(self.flappy_bird.sprite, self.sprite_group, collided = has_collided)
+        if (not hit_sprite == None):
+            self.flappy_bird.kill_flappy()"""
+
+    def has_collided(self, sprite1, sprite2):
+        return pygame.sprite.collide_mask(sprite1, sprite2)
+
+    def spawn_obstacles(self):
+        obstacle_x_pos = Constants.WINDOW_WIDTH
+        for i in range(0, 6):
+            self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, OBSTACLE_SPEED))
+            obstacle_x_pos += OBSTACLE_SPACING
+
+    def give_points(self):
+        """for obstacle in self.obstacles_list:
+            if obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos < 0 and \
+                obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos >= -OBSTACLE_SPEED:
+                self.flappy_bird.score += 1"""
+
     def input_handler(self):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -70,25 +91,3 @@ class GameState:
                     self.running = False
             if event.type == pygame.QUIT:
                 self.running = False
-
-    def check_collisions(self):
-        # Bird with walls
-        if (self.flappy_bird.shape.y + self.flappy_bird.bird_height > Constants.WINDOW_HEIGHT) or (self.flappy_bird.shape.y < 0):
-            self.flappy_bird.kill_flappy()
-
-        # Bird with obstacles
-        for obstacle in self.obstacles_list:
-            if obstacle.shape[0].colliderect(self.flappy_bird.shape) or \
-               obstacle.shape[1].colliderect(self.flappy_bird.shape):
-                self.flappy_bird.kill_flappy()
-
-    def has_collided(self, object1, object2):
-        # if collision:
-        return True
-        return False
-
-    def give_points(self):
-        for obstacle in self.obstacles_list:
-            if obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos < 0 and \
-                obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos >= -OBSTACLE_SPEED:
-                self.flappy_bird.score += 1

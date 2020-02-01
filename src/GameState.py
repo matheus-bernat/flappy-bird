@@ -98,10 +98,10 @@ class GameState:
                 obstacle_x_pos += OBSTACLE_SPACING
 
     def give_points(self):
-        """for obstacle in self.obstacles_list:
+        for obstacle in self.obstacles_list:
             if obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos < 0 and \
                 obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos >= -OBSTACLE_SPEED:
-                self.flappy_bird.score += 1"""
+                self.flappy_bird.score += 1
 
     def input_handler(self):
         for event in pygame.event.get():

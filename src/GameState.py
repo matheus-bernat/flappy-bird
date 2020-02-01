@@ -20,7 +20,7 @@ class GameState:
 
     def draw(self):
         self.game_window.fill(0) # clean screen
-        pygame.draw.circle(self.game_window, 255, [self.flappy_bird.x_pos, self.flappy_bird.y_pos], 15)
+        pygame.draw.circle(self.game_window, 255, (round(self.flappy_bird.x_pos), round(self.flappy_bird.y_pos)), 15)
         for obstacle in self.obstacles_list:
             pygame.draw.circle(self.game_window, 50, [obstacle.x_pos, 100], 30)
 
@@ -39,5 +39,9 @@ class GameState:
             if obstacle.is_out_of_screen():
                 obstacle.x_pos += 250
 
+<<<<<<< HEAD
         self.flappy_bird.update()
+=======
+>>>>>>> 7b5b29b24a2da77447d882a4d8de21fbd0b6dfad
         self.draw()
+        self.flappy_bird.update()

@@ -14,7 +14,6 @@ OBSTACLE_GAP = 200
 OBSTACLE_SPACING = 250
 OBSTACLE_SPEED = 3
 
-
 class GameState:
     def __init__(self, game_window):
         self.flappy_bird = Bird(INIT_BIRD_X_POS, INIT_BIRD_Y_POS, 0, True, BIRD_WIDTH, BIRD_HEIGHT, 0)

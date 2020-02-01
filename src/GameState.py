@@ -1,5 +1,6 @@
 from Bird import *
 from Obstacle import *
+from ScoreHandler import ScoreHandler
 import pygame
 import Constants
 import os
@@ -27,8 +28,11 @@ class GameState:
         self.spawn_obstacles()
         self.add_sprites_to_group()
         pygame.font.init()
-        self.a_font = pygame.font.SysFont('Comic Sans MS', 30)
         self.running = True
+        self.a_font = pygame.font.SysFont('Courier', 30)
+        self.score_handler = ScoreHandler()
+        self.curr_st_str = "game"
+        self.name = "game"
 
     def draw(self):
         self.game_window.fill(0) # clear screen
@@ -37,18 +41,27 @@ class GameState:
 
         self.sprites_group.draw(self.game_window) # draw all sprites on the game window
 
+<<<<<<< HEAD
 
     def add_sprites_to_group(self):
         self.sprites_group.add(self.flappy_bird)
         for obstacle in self.obstacles_list:
             self.sprites_group.add(obstacle)
 
+=======
+    def spawn_obstacles(self):
+        obstacle_x_pos = Constants.WINDOW_WIDTH
+        for i in range(0, 6):
+            self.obstacles_list.append(Obstacle(obstacle_x_pos, OBSTACLE_WIDTH, OBSTACLE_GAP, OBSTACLE_SPEED))
+            obstacle_x_pos += OBSTACLE_SPACING
+>>>>>>> master
 
     def update(self):
         i = 0
         for obstacle in self.obstacles_list:
             obstacle.move()
             if obstacle.is_out_of_screen():
+<<<<<<< HEAD
                 new_y = randrange(-400, -200)
                 if i % 2 == 0:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y)
@@ -56,12 +69,15 @@ class GameState:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y + OBSTACLE_GAP + OBSTACLE_HEIGHT)
                 i += 1
 
+=======
+                obstacle.respawn(OBSTACLE_SPACING*6)
+>>>>>>> master
         self.flappy_bird.update()
         self.input_handler()
         self.check_collisions()
         if not self.flappy_bird.alive:
             self.running = False
-            print('YOU GOT %d POINTS!' % self.flappy_bird.score)
+            self.reset()
         self.draw()
         self.give_points()
 
@@ -69,6 +85,8 @@ class GameState:
         # Bird with walls
         if (self.flappy_bird.rect.y + self.flappy_bird.rect.size[1]  > Constants.WINDOW_HEIGHT) or (self.flappy_bird.rect.y < 0):
             self.flappy_bird.kill_flappy()
+            self.score_handler.add_score(self.flappy_bird.score)
+            self.curr_st_str = "score"
 
         # Bird with obstacles
         """hit_sprite = pygame.sprite.spritecollisionany(self.flappy_bird, self.sprite_group)
@@ -108,3 +126,14 @@ class GameState:
                     self.running = False
             if event.type == pygame.QUIT:
                 self.running = False
+                self.flappy_bird.score += 1
+
+    def reset(self):
+        self.obstacles_list = []
+        self.spawn_obstacles()
+        self.flappy_bird.x_pos = 50
+        self.flappy_bird.y_pos = 50
+        self.flappy_bird.x_vel = 0
+        self.flappy_bird.y_vel = 0
+        self.flappy_bird.score = 0
+        self.flappy_bird.alive = True

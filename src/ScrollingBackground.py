@@ -10,6 +10,7 @@ class ScrollingBackground(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x_pos
         self.rect.y = 0
+        self.i = 0
 
     def update(self):
         self.move()
@@ -18,6 +19,7 @@ class ScrollingBackground(pygame.sprite.Sprite):
         self.rect.x -= self.speed
         if self.is_out_of_screen():
             self.respawn()
+
 
     def respawn(self):
         self.rect.x += WINDOW_WIDTH*2

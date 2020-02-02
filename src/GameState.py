@@ -1,6 +1,7 @@
 from Bird import *
 from Obstacle import *
 from ScoreHandler import ScoreHandler
+from ScrollingBackground import ScrollingBackground
 from random import randrange
 import pygame
 import Constants

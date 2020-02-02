@@ -28,7 +28,7 @@ class GameState:
         self.obstacles_list = []
         self.spawn_obstacles()
         self.backgrounds = []
-        self.spawn_backgrounds()
+        self.spawn_backgrounds(False)
         self.background_sprites_group = pygame.sprite.Group()
         self.add_sprites_to_groups()
         pygame.font.init()
@@ -40,11 +40,15 @@ class GameState:
 
     def draw(self):
         #self.background_sprites_group.draw(self.game_window)
-        self.game_window.fill(0)
+        self.draw_background()
         text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
         self.game_window.blit(text_surface, (0, 0))
         self.flappy_sprite_group.draw(self.game_window)
         self.obstacles_sprite_group.draw(self.game_window)
+
+    def draw_background(self):
+        self.game_window.fill(Constants.DAY_BLUE)
+        grass = pygame.draw.rect(self.game_window, Constants.GREEN, (0, 500, 1000, 100))
 
     def add_sprites_to_groups(self):
         self.flappy_sprite_group.add(self.flappy_bird)
@@ -65,8 +69,8 @@ class GameState:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y + OBSTACLE_GAP + OBSTACLE_HEIGHT)
                 i += 1
         self.flappy_bird.update()
-        for background in self.backgrounds:
-            background.update()
+        """for background in self.backgrounds:
+          background.update()"""
         self.input_handler()
         self.check_collisions()
         self.give_points()
@@ -99,11 +103,11 @@ class GameState:
                 self.obstacles_list.append(obstacle)
                 obstacle_x_pos += OBSTACLE_SPACING
 
-    def spawn_backgrounds(self):
+    def spawn_backgrounds(self, scrolling_background):
         x_pos = 0
-        self.backgrounds.append(ScrollingBackground(x_pos,1,False))
+        self.backgrounds.append(ScrollingBackground(x_pos, 1, False))
         x_pos += Constants.WINDOW_WIDTH
-        self.backgrounds.append(ScrollingBackground(x_pos,1,True))
+        self.backgrounds.append(ScrollingBackground(x_pos, 1, True))
 
     def give_points(self):
         for obstacle in self.obstacles_list:

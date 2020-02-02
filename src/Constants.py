@@ -1,7 +1,8 @@
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
-BLUE =  (  0,   0, 255)
-GREEN = (  0, 255,   0)
+NIGHT_BLUE =  (  0,   0, 50)
+DAY_BLUE = (100, 180, 235)
+GREEN = (  0, 120,   0)
 RED =   (255,   0,   0)
 
 WINDOW_WIDTH  = 1000

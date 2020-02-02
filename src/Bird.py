@@ -46,3 +46,4 @@ class Bird(pygame.sprite.Sprite):
         angle = 180/math.pi*math.atan(-self.y_vel/3)
         self.image = pygame.transform.rotate(self.original_image, angle)
         self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)

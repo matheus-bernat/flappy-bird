@@ -26,6 +26,9 @@ class GameState:
         self.flappy_bird = Bird(INIT_BIRD_X_POS, INIT_BIRD_Y_POS, 0, BIRD_WIDTH, BIRD_HEIGHT)
         self.obstacles_list = []
         self.spawn_obstacles()
+        self.backgrounds = []
+        self.spawn_backgrounds()
+        self.background_sprites_group = pygame.sprite.Group()
         self.add_sprites_to_groups()
         pygame.font.init()
         self.running = True
@@ -40,11 +43,14 @@ class GameState:
         self.game_window.blit(text_surface, (0, 0))
         self.flappy_sprite_group.draw(self.game_window)
         self.obstacles_sprite_group.draw(self.game_window) # draw all sprites on the game window
+        self.background_sprites_group.draw(self.game_window)
+        self.sprites_group.draw(self.game_window) # draw all sprites on the game window
 
     def add_sprites_to_groups(self):
         self.flappy_sprite_group.add(self.flappy_bird)
         for obstacle in self.obstacles_list:
-            self.obstacles_sprite_group.add(obstacle)
+            self.obstacles_sprite_group.add(obstacle) for background in self.backgrounds:
+            self.background_sprites_group.add(background)
 
     def update(self):
         i = 0
@@ -58,6 +64,8 @@ class GameState:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y + OBSTACLE_GAP + OBSTACLE_HEIGHT)
                 i += 1
         self.flappy_bird.update()
+        for background in self.backgrounds:
+            background.update()
         self.input_handler()
         self.check_collisions()
         self.give_points()
@@ -89,6 +97,12 @@ class GameState:
                 obstacle = Obstacle(obstacle_x_pos, obstacle_y_pos + OBSTACLE_HEIGHT + OBSTACLE_GAP, OBSTACLE_SPEED, IMG_OBSTACLE_BOTTOM)
                 self.obstacles_list.append(obstacle)
                 obstacle_x_pos += OBSTACLE_SPACING
+
+    def spawn_backgrounds(self):
+        x_pos = 0
+        for i in range(0,3):
+            self.backgrounds.append(ScrollingBackground(x_pos,1))
+            x_pos += 700
 
     def give_points(self):
         for obstacle in self.obstacles_list:

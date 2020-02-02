@@ -37,6 +37,7 @@ class GameState:
         self.score_handler = ScoreHandler()
         self.curr_st_str = "game"
         self.name = "game"
+        #self.sound = pygame.mixer.Sound('../res/fart-01.ogg')
 
     def draw(self):
         self.background_sprites_group.draw(self.game_window)

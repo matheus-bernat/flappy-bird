@@ -18,6 +18,7 @@ class Bird(pygame.sprite.Sprite):
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.mask = pygame.mask.from_surface(self.image)
+        self.rotation = 0
         self.alive = True
         self.score = 0
 

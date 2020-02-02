@@ -1,6 +1,7 @@
 from Bird import *
 from Obstacle import *
 from ScoreHandler import ScoreHandler
+from ScrollingBackground import ScrollingBackground
 from random import randrange
 import pygame
 import Constants
@@ -26,6 +27,9 @@ class GameState:
         self.flappy_bird = Bird(INIT_BIRD_X_POS, INIT_BIRD_Y_POS, 0, BIRD_WIDTH, BIRD_HEIGHT)
         self.obstacles_list = []
         self.spawn_obstacles()
+        self.backgrounds = []
+        self.spawn_backgrounds()
+        self.background_sprites_group = pygame.sprite.Group()
         self.add_sprites_to_groups()
         pygame.font.init()
         self.running = True
@@ -36,7 +40,7 @@ class GameState:
         #self.sound = pygame.mixer.Sound('../res/fart-01.ogg')
 
     def draw(self):
-        self.game_window.fill(0) # clear screen
+        self.background_sprites_group.draw(self.game_window)
         text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
         self.game_window.blit(text_surface, (0, 0))
         self.flappy_sprite_group.draw(self.game_window)
@@ -46,6 +50,8 @@ class GameState:
         self.flappy_sprite_group.add(self.flappy_bird)
         for obstacle in self.obstacles_list:
             self.obstacles_sprite_group.add(obstacle)
+        for background in self.backgrounds:
+            self.background_sprites_group.add(background)
 
     def update(self):
         i = 0
@@ -59,6 +65,8 @@ class GameState:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y + OBSTACLE_GAP + OBSTACLE_HEIGHT)
                 i += 1
         self.flappy_bird.update()
+        for background in self.backgrounds:
+            background.update()
         self.input_handler()
         self.check_collisions()
         self.give_points()
@@ -91,15 +99,20 @@ class GameState:
                 self.obstacles_list.append(obstacle)
                 obstacle_x_pos += OBSTACLE_SPACING
 
+    def spawn_backgrounds(self):
+        x_pos = 0
+        self.backgrounds.append(ScrollingBackground(x_pos,1,False))
+        x_pos += Constants.WINDOW_WIDTH
+        self.backgrounds.append(ScrollingBackground(x_pos,1,True))
+
     def give_points(self):
         for obstacle in self.obstacles_list:
-            if obstacle.rect.x + (obstacle.rect.width/2) - self.flappy_bird.rect.x < 0 and \
-                obstacle.rect.x + (obstacle.rect.width/2) - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
+            if obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x < 0 and \
+                obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -obstacle.speed:
                 self.flappy_bird.score += 0.5
-                #self.sound.play()
-                #pygame.mixer.music.load('../res/fart-01.ogg')
-                #pygame.mixer.music.play(1)
-
+                if self.flappy_bird.score % 10 == 0 and self.flappy_bird.score != 0:
+                    for obstacle in self.obstacles_list:
+                        obstacle.increase_speed(1)
 
     def end_game(self):
         self.flappy_bird.kill_flappy()

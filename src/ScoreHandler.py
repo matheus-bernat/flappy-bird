@@ -26,7 +26,7 @@ class ScoreHandler:
             return ""
         output_string = \
                 "*"*40+"\n" \
-                "     SCORE        DATE\n"
+                "    SCORE        DATE\n"
         for i in range(min(len(scores),number_of_scores)):
             output_string += \
                     " %d:" % (i + 1) + " "*(7-len(str(first_column(scores[i]))+str(i+1))) + \
@@ -35,11 +35,19 @@ class ScoreHandler:
         return output_string
 
     def blit_highscores(self, surface,x,y,a_font):
+        scores_file = open(self.scores_file_name, "r")
+        scores = scores_file.readlines()
+        latest = scores[-1].replace("\n","  *").replace(",","       ")
+
         text = self.view_highscores()
         lines = re.findall(".*",text)
         for i in range(0,len(lines)):
             y += 20
-            surface.blit(a_font.render(lines[i], False, [143,240,160]), (x,y))
+            if lines[i].find(latest) == -1:
+                surface.blit(a_font.render(lines[i], False, [143,240,160]), (x,y))
+            else:
+                surface.blit(a_font.render("NEW RECORD!%s" % lines[i][1:], False, [240,0,160]), (x-180,y))
+
 
 
 

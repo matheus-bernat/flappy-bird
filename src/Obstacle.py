@@ -17,7 +17,10 @@ class Obstacle(pygame.sprite.Sprite):
 
     def respawn(self, new_x, new_y):
         self.rect.x += new_x
-        self.rect_y = new_y
+        self.rect.y = new_y
 
     def is_out_of_screen(self):
         return self.rect.x + self.rect.size[0] < 0
+
+    def increase_speed(self,speed):
+        self.speed += speed

@@ -166,12 +166,13 @@ class GameState:
             self.dirtyrects2.append(obstacle.rect)
 
     def spawn_stars(self):
-        self.stars.append(ScrollingBody(100,(0,255,255),math.pi/2))
-        self.stars.append(ScrollingBody(100,(200,0,100),-math.pi/2))
-        self.stars.append(ScrollingBody(100,(0,100,100),0))
-        self.stars.append(ScrollingBody(100,(200,0,100),math.pi))
-        for i in range(0,1000):
-            self.stars.append(ScrollingBody(2,(255,255,255),randrange(0,1000),randrange(Constants.WINDOW_HEIGHT,Constants.WINDOW_HEIGHT*2)))
+        suns = 18
+        for i in range(0,suns):
+            self.stars.append(ScrollingBody(100,Constants.SUN_ORANGE,2*i*math.pi/suns+ math.pi/suns))
+        for i in range(0,suns):
+            self.stars.append(ScrollingBody(100,Constants.GREY,-2*i*math.pi/suns))
+        for i in range(0,100):
+            self.stars.append(ScrollingBody(2,(255,255,255),randrange(0,1000),True))
 
     def update_stars(self):
         for star in self.stars:

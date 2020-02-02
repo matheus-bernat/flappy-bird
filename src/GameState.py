@@ -38,6 +38,9 @@ class GameState:
         self.curr_st_str = "game"
         self.name = "game"
         #self.sound = pygame.mixer.Sound('../res/fart-01.ogg')
+        self.dirtyrects1 = []
+        self.dirtyrects2 = []
+        self.update_dirty_rects()
 
     def draw(self):
         self.background_sprites_group.draw(self.game_window)
@@ -141,3 +144,12 @@ class GameState:
         self.flappy_sprite_group.empty() # remove all sprites from group
         self.obstacles_sprite_group.empty() # remove obstacle-sprites from group
         self.add_sprites_to_groups()
+
+    def update_dirty_rects(self):
+        self.dirtyrects1 = self.dirtyrects2
+        self.dirtyrects2 = []
+        for flappy in self.flappy_sprite_group.sprites():
+            self.dirtyrects2.append(flappy.rect)
+        for obstacle in self.obstacles_sprite_group.sprites():
+            self.dirtyrects2.append(obstacle.rect)
+

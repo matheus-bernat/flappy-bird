@@ -38,6 +38,7 @@ class GameState:
         pygame.font.init()
         self.running = True
         self.a_font = pygame.font.SysFont('Courier', 30)
+        self.flappy_font = pygame.font.Font('../res/04B_19__.TTF', 50)
         self.score_handler = ScoreHandler()
         self.curr_st_str = "game"
         self.name = "game"
@@ -45,6 +46,12 @@ class GameState:
         self.spawn_stars()
 
     def draw(self):
+<<<<<<< HEAD
+        #self.background_sprites_group.draw(self.game_window)
+        self.draw_background()
+        text_surface = self.flappy_font.render('%d' % self.flappy_bird.score, False, Constants.WHITE)
+        self.game_window.blit(text_surface, (Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2))
+=======
         if SCROLLING_BACKGROUND:
             self.background_sprites_group.draw(self.game_window)
         else:
@@ -52,6 +59,7 @@ class GameState:
             self.draw_stars(self.game_window)
         text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
         self.game_window.blit(text_surface, (0, 0))
+>>>>>>> 93289e834c295c10260570fd5e73dce9e04ad63f
         self.flappy_sprite_group.draw(self.game_window)
         self.obstacles_sprite_group.draw(self.game_window)
 
@@ -114,10 +122,13 @@ class GameState:
                 obstacle_x_pos += OBSTACLE_SPACING
 
     def spawn_backgrounds(self, scrolling_background):
-        x_pos = 0
-        self.backgrounds.append(ScrollingBackground(x_pos, 1, False))
-        x_pos += Constants.WINDOW_WIDTH
-        self.backgrounds.append(ScrollingBackground(x_pos, 1, True))
+        if scrolling_background:
+            x_pos = 0
+            self.backgrounds.append(ScrollingBackground(x_pos, 1, False))
+            x_pos += Constants.WINDOW_WIDTH
+            self.backgrounds.append(ScrollingBackground(x_pos, 1, True))
+            return
+
 
     def give_points(self):
         for obstacle in self.obstacles_list:

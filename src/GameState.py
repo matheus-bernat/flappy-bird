@@ -2,9 +2,11 @@ from Bird import *
 from Obstacle import *
 from ScoreHandler import ScoreHandler
 from ScrollingBackground import ScrollingBackground
+from ScrollingBody import ScrollingBody
 from random import randrange
 import pygame
 import Constants
+import math
 
 INIT_BIRD_X_POS = 50
 INIT_BIRD_Y_POS = 50
@@ -15,6 +17,8 @@ OBSTACLE_HEIGHT = 500
 OBSTACLE_GAP = 200
 OBSTACLE_SPACING = OBSTACLE_GAP + OBSTACLE_WIDTH
 OBSTACLE_SPEED = 3
+
+SCROLLING_BACKGROUND = False
 
 IMG_OBSTACLE_BOTTOM = '../res/obstacle_bottom.png'
 IMG_OBSTACLE_TOP = '../res/obstacle_top.png'
@@ -38,12 +42,24 @@ class GameState:
         self.score_handler = ScoreHandler()
         self.curr_st_str = "game"
         self.name = "game"
+        self.stars = []
+        self.spawn_stars()
 
     def draw(self):
+<<<<<<< HEAD
         #self.background_sprites_group.draw(self.game_window)
         self.draw_background()
         text_surface = self.flappy_font.render('%d' % self.flappy_bird.score, False, Constants.WHITE)
         self.game_window.blit(text_surface, (Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2))
+=======
+        if SCROLLING_BACKGROUND:
+            self.background_sprites_group.draw(self.game_window)
+        else:
+            self.draw_background()
+            self.draw_stars(self.game_window)
+        text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
+        self.game_window.blit(text_surface, (0, 0))
+>>>>>>> 93289e834c295c10260570fd5e73dce9e04ad63f
         self.flappy_sprite_group.draw(self.game_window)
         self.obstacles_sprite_group.draw(self.game_window)
 
@@ -70,8 +86,10 @@ class GameState:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y + OBSTACLE_GAP + OBSTACLE_HEIGHT)
                 i += 1
         self.flappy_bird.update()
-        """for background in self.backgrounds:
-          background.update()"""
+        self.update_stars()
+        if SCROLLING_BACKGROUND:
+            for background in self.backgrounds:
+                background.update()
         self.input_handler()
         self.check_collisions()
         self.give_points()
@@ -89,8 +107,7 @@ class GameState:
             self.end_game()
         # Bird with obstacles
         hit_sprite = pygame.sprite.spritecollideany(self.flappy_bird, self.obstacles_sprite_group, collided=self.has_collided)
-        if not (hit_sprite == None):
-            self.end_game()
+        if not (hit_sprite == None): self.end_game()
 
     def spawn_obstacles(self):
         obstacle_x_pos = Constants.WINDOW_WIDTH
@@ -150,3 +167,27 @@ class GameState:
         self.flappy_sprite_group.empty() # remove all sprites from group
         self.obstacles_sprite_group.empty() # remove obstacle-sprites from group
         self.add_sprites_to_groups()
+
+    def update_dirty_rects(self):
+        self.dirtyrects1 = self.dirtyrects2
+        self.dirtyrects2 = []
+        for flappy in self.flappy_sprite_group.sprites():
+            self.dirtyrects2.append(flappy.rect)
+        for obstacle in self.obstacles_sprite_group.sprites():
+            self.dirtyrects2.append(obstacle.rect)
+
+    def spawn_stars(self):
+        self.stars.append(ScrollingBody(100,(0,255,255),math.pi/2))
+        self.stars.append(ScrollingBody(100,(200,0,100),-math.pi/2))
+        self.stars.append(ScrollingBody(100,(0,100,100),0))
+        self.stars.append(ScrollingBody(100,(200,0,100),math.pi))
+        for i in range(0,1000):
+            self.stars.append(ScrollingBody(2,(255,255,255),randrange(0,1000),randrange(Constants.WINDOW_HEIGHT,Constants.WINDOW_HEIGHT*2)))
+
+    def update_stars(self):
+        for star in self.stars:
+            star.update()
+
+    def draw_stars(self,window):
+        for star in self.stars:
+            star.draw(window)

@@ -14,6 +14,7 @@ class Bird(pygame.sprite.Sprite):
         self.rect.x = x_pos
         self.rect.y = y_pos
         self.mask = pygame.mask.from_surface(self.image)
+        self.rotation = 0
         self.alive = True
         self.score = 0
 
@@ -33,3 +34,13 @@ class Bird(pygame.sprite.Sprite):
 
     def update(self):
         self.fall()
+        #self.rotate_image()
+
+    def rotate_image(self):
+        self.rotation = (self.y_vel/10) * 90 # angle between -90 and 90
+        if self.rotation > 90:
+            self.rotation = 90
+        elif self.rotation < -90:
+            self.rotation = -90
+        self.image = pygame.transform.rotate(self.image, self.rotation)
+        self.mask = pygame.mask.from_surface(self.image)

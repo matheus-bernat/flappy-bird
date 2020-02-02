@@ -19,13 +19,9 @@ def main():
     clock = pygame.time.Clock()
     iterator = 0
     while game.state_handler.running:
-        clock.tick(600)
+        clock.tick(60)
         game.update()
-        iterator = (iterator + 1) % 6
-        if iterator == 0:
-            pygame.display.flip() # refresh screen
-        #pygame.display.update(game.state_handler.game_state.dirtyrects2)
-        #pygame.display.update(game.state_handler.game_state.dirtyrects1)
+        pygame.display.flip() # refresh screen
     pygame.mixer.quit()
 
 if __name__ == "__main__":

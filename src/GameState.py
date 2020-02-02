@@ -13,7 +13,7 @@ BIRD_HEIGHT = 50
 OBSTACLE_WIDTH = 50
 OBSTACLE_HEIGHT = 500
 OBSTACLE_GAP = 200
-OBSTACLE_SPACING = 250
+OBSTACLE_SPACING = OBSTACLE_SPACING + OBSTACLE_WIDTH
 OBSTACLE_SPEED = 3
 
 IMG_OBSTACLE_BOTTOM = '../res/obstacle_bottom.png'
@@ -58,8 +58,8 @@ class GameState:
         for obstacle in self.obstacles_list:
             obstacle.move()
             if obstacle.is_out_of_screen():
-                new_y = randrange(-400, -200)
                 if i % 2 == 0:
+                    new_y = randrange(-450, -250)
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y)
                 else:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y + OBSTACLE_GAP + OBSTACLE_HEIGHT)
@@ -107,8 +107,8 @@ class GameState:
 
     def give_points(self):
         for obstacle in self.obstacles_list:
-            if obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x < 0 and \
-                obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -obstacle.speed:
+            if obstacle.rect.x + (obstacle.rect.width/2) - self.flappy_bird.rect.x < 0 and \
+                obstacle.rect.x + (obstacle.rect.width/2) - self.flappy_bird.rect.x >= -obstacle.speed:
                 self.flappy_bird.score += 0.5
                 if self.flappy_bird.score % 10 == 0 and self.flappy_bird.score != 0:
                     for obstacle in self.obstacles_list:

@@ -1,6 +1,7 @@
 from Bird import *
 from Obstacle import *
 from ScoreHandler import ScoreHandler
+from ScrollingBackground import ScrollingBackground
 import pygame
 import Constants
 import os
@@ -26,7 +27,10 @@ class GameState:
         self.flappy_bird = Bird(INIT_BIRD_X_POS, INIT_BIRD_Y_POS, 0, BIRD_WIDTH, BIRD_HEIGHT)
         self.obstacles_list = []
         self.spawn_obstacles()
-        self.add_sprites_to_group()
+        self.backgrounds = []
+        self.spawn_backgrounds()
+        self.background_sprites_group = pygame.sprite.Group()
+        self.add_sprites_to_groups()
         pygame.font.init()
         self.running = True
         self.a_font = pygame.font.SysFont('Courier', 30)
@@ -39,12 +43,15 @@ class GameState:
         text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
         self.game_window.blit(text_surface, (0, 0))
 
+        self.background_sprites_group.draw(self.game_window)
         self.sprites_group.draw(self.game_window) # draw all sprites on the game window
 
-    def add_sprites_to_group(self):
+    def add_sprites_to_groups(self):
         self.sprites_group.add(self.flappy_bird)
         for obstacle in self.obstacles_list:
             self.sprites_group.add(obstacle)
+        for background in self.backgrounds:
+            self.background_sprites_group.add(background)
 
     def update(self):
         i = 0
@@ -59,6 +66,8 @@ class GameState:
                 i += 1
 
         self.flappy_bird.update()
+        for background in self.backgrounds:
+            background.update()
         self.input_handler()
         self.check_collisions()
         if not self.flappy_bird.alive:
@@ -97,11 +106,17 @@ class GameState:
                 print("(obstacle_x, obstacle_y): " + str(obstacle.rect.x) + ", " + str(obstacle.rect.y))
                 obstacle_x_pos += OBSTACLE_SPACING
 
+    def spawn_backgrounds(self):
+        x_pos = 0
+        for i in range(0,3):
+            self.backgrounds.append(ScrollingBackground(x_pos,1))
+            x_pos += 700
+
     def give_points(self):
-        """for obstacle in self.obstacles_list:
-            if obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos < 0 and \
-                obstacle.shape[0].x + obstacle.width - self.flappy_bird.x_pos >= -OBSTACLE_SPEED:
-                self.flappy_bird.score += 1"""
+        for obstacle in self.obstacles_list:
+            if obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x < 0 and \
+                obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
+                self.flappy_bird.score += 1/2
 
     def input_handler(self):
         for event in pygame.event.get():

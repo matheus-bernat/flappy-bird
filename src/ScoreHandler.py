@@ -1,5 +1,6 @@
 import re
 import datetime
+import Constants
 
 def first_column(string):
     i = 0
@@ -44,11 +45,6 @@ class ScoreHandler:
         for i in range(0,len(lines)):
             y += 20
             if lines[i].find(latest) == -1:
-                surface.blit(a_font.render(lines[i], False, [143,240,160]), (x,y))
+                surface.blit(a_font.render(lines[i], False, Constants.WHITE), (x,y))
             else:
                 surface.blit(a_font.render("NEW RECORD!%s" % lines[i][1:], False, [240,0,160]), (x-180,y))
-
-
-
-
-

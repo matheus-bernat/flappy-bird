@@ -10,7 +10,7 @@ class ScoreState:
         self.curr_st_str = "score"
         self.curser_pos = 0
         pygame.font.init()
-        self.a_font = pygame.font.SysFont('Courier', 30)
+        self.flappy_font = pygame.font.Font('../res/04B_19__.TTF', 20)
 
     def input_handler(self):
         for event in pygame.event.get():
@@ -28,15 +28,16 @@ class ScoreState:
                         pygame.quit()
 
     def draw(self):
-        self.window.fill(0)
-        self.score_handler.blit_highscores(self.window,Constants.WINDOW_WIDTH/2-300,20,self.a_font)
+        background_surface = pygame.transform.scale((pygame.image.load('../res/background.png')), (Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT))
+        self.window.blit(background_surface, (0, 0))
+        self.score_handler.blit_highscores(self.window,Constants.WINDOW_WIDTH/2-300,20,self.flappy_font)
         x_pos = 50
         y_pos = Constants.WINDOW_HEIGHT - 120
-        textsurface = self.a_font.render('MENU', False, [143,240,160])
+        textsurface = self.flappy_font.render('MENU', False, Constants.WHITE)
         self.window.blit(textsurface,(x_pos, y_pos))
-        textsurface = self.a_font.render('EXIT', False, [143,240,160])
+        textsurface = self.flappy_font.render('EXIT', False, Constants.WHITE)
         self.window.blit(textsurface,(x_pos,y_pos+50))
-        textsurface = self.a_font.render('*', False, [143,240,160])
+        textsurface = self.flappy_font.render('*', False, Constants.WHITE)
         self.window.blit(textsurface,(x_pos-20,y_pos+self.curser_pos*50))
 
     def update(self):

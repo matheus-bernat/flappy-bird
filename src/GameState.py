@@ -58,8 +58,8 @@ class GameState:
         for obstacle in self.obstacles_list:
             obstacle.move()
             if obstacle.is_out_of_screen():
-                new_y = randrange(-400, -200)
                 if i % 2 == 0:
+                    new_y = randrange(-400, -200)
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y)
                 else:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y + OBSTACLE_GAP + OBSTACLE_HEIGHT)

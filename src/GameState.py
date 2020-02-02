@@ -1,9 +1,9 @@
 from Bird import *
 from Obstacle import *
 from ScoreHandler import ScoreHandler
+from random import randrange
 import pygame
 import Constants
-from random import randrange
 
 INIT_BIRD_X_POS = 50
 INIT_BIRD_Y_POS = 50
@@ -57,33 +57,26 @@ class GameState:
                 else:
                     obstacle.respawn((OBSTACLE_SPACING * 6), new_y + OBSTACLE_GAP + OBSTACLE_HEIGHT)
                 i += 1
-
         self.flappy_bird.update()
         self.input_handler()
         self.check_collisions()
+        self.give_points()
         if not self.flappy_bird.alive:
             self.running = False
             self.reset()
-        self.give_points()
         self.draw()
+
+    def has_collided(self, sprite1, sprite2):
+        return pygame.sprite.collide_mask(sprite1, sprite2)
 
     def check_collisions(self):
         # Bird with walls
         if (self.flappy_bird.rect.y + self.flappy_bird.rect.size[1]  > Constants.WINDOW_HEIGHT) or (self.flappy_bird.rect.y < 0):
-            self.flappy_bird.kill_flappy()
-            self.score_handler.add_score(self.flappy_bird.score)
-            self.curr_st_str = "score"
-
+            self.end_game()
         # Bird with obstacles
-        hit_sprite = pygame.sprite.spritecollideany(self.flappy_bird, self.obstacles_sprite_group)
+        hit_sprite = pygame.sprite.spritecollideany(self.flappy_bird, self.obstacles_sprite_group, collided=self.has_collided)
         if not (hit_sprite == None):
-            print("died in here")
-            self.flappy_bird.kill_flappy()
-            self.score_handler.add_score(self.flappy_bird.score)
-            self.curr_st_str = "score"
-
-    def has_collided(self, sprite1, sprite2):
-        return pygame.sprite.collide_mask(sprite1, sprite2)
+            self.end_game()
 
     def spawn_obstacles(self):
         obstacle_x_pos = Constants.WINDOW_WIDTH
@@ -102,6 +95,11 @@ class GameState:
             if obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x < 0 and \
                 obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
                 self.flappy_bird.score += 0.5
+
+    def end_game(self):
+        self.flappy_bird.kill_flappy()
+        self.score_handler.add_score(self.flappy_bird.score)
+        self.curr_st_str = "score"
 
     def input_handler(self):
         for event in pygame.event.get():

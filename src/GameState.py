@@ -39,18 +39,17 @@ class GameState:
         self.name = "game"
 
     def draw(self):
-        self.game_window.fill(0) # clear screen
+        self.background_sprites_group.draw(self.game_window)
         text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
         self.game_window.blit(text_surface, (0, 0))
         self.flappy_sprite_group.draw(self.game_window)
         self.obstacles_sprite_group.draw(self.game_window) # draw all sprites on the game window
-        self.background_sprites_group.draw(self.game_window)
-        self.sprites_group.draw(self.game_window) # draw all sprites on the game window
 
     def add_sprites_to_groups(self):
         self.flappy_sprite_group.add(self.flappy_bird)
         for obstacle in self.obstacles_list:
-            self.obstacles_sprite_group.add(obstacle) for background in self.backgrounds:
+            self.obstacles_sprite_group.add(obstacle)
+        for background in self.backgrounds:
             self.background_sprites_group.add(background)
 
     def update(self):
@@ -108,15 +107,18 @@ class GameState:
 
     def spawn_backgrounds(self):
         x_pos = 0
-        for i in range(0,3):
-            self.backgrounds.append(ScrollingBackground(x_pos,1))
-            x_pos += 700
+        self.backgrounds.append(ScrollingBackground(x_pos,1,False))
+        x_pos += Constants.WINDOW_WIDTH
+        self.backgrounds.append(ScrollingBackground(x_pos,1,True))
 
     def give_points(self):
         for obstacle in self.obstacles_list:
             if obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x < 0 and \
-                obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
+                obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -obstacle.speed:
                 self.flappy_bird.score += 0.5
+                if self.flappy_bird.score % 10 == 0 and self.flappy_bird.score != 0:
+                    for obstacle in self.obstacles_list:
+                        obstacle.increase_speed(1)
 
     def input_handler(self):
         for event in pygame.event.get():

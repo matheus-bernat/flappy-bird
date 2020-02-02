@@ -20,3 +20,6 @@ class Obstacle(pygame.sprite.Sprite):
 
     def is_out_of_screen(self):
         return self.rect.x + self.rect.size[0] < 0
+
+    def increase_speed(self,speed):
+        self.speed += speed

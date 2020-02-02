@@ -20,7 +20,7 @@ def main():
     while game.state_handler.running:
         clock.tick(60)
         game.update()
-        pygame.display.flip() # refresh screen
+        pygame.display.update() # refresh screen
     pygame.mixer.quit()
 
 if __name__ == "__main__":

@@ -37,14 +37,14 @@ class GameState:
         self.score_handler = ScoreHandler()
         self.curr_st_str = "game"
         self.name = "game"
-        #self.sound = pygame.mixer.Sound('../res/fart-01.ogg')
 
     def draw(self):
-        self.background_sprites_group.draw(self.game_window)
+        #self.background_sprites_group.draw(self.game_window)
+        self.game_window.fill(0)
         text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
         self.game_window.blit(text_surface, (0, 0))
         self.flappy_sprite_group.draw(self.game_window)
-        self.obstacles_sprite_group.draw(self.game_window) # draw all sprites on the game window
+        self.obstacles_sprite_group.draw(self.game_window)
 
     def add_sprites_to_groups(self):
         self.flappy_sprite_group.add(self.flappy_bird)
@@ -132,6 +132,7 @@ class GameState:
 
     def reset(self):
         self.flappy_bird.rect.y = INIT_BIRD_Y_POS
+        self.flappy_bird.y_pos = INIT_BIRD_Y_POS
         self.flappy_bird.y_vel = 0
         self.flappy_bird.score = 0
         self.flappy_bird.alive = True

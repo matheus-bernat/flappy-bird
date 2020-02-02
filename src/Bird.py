@@ -29,7 +29,7 @@ class Bird(pygame.sprite.Sprite):
         self.y_pos += self.y_vel
         if self.y_vel < 10:
             self.y_vel += GRAVITY
-        self.rotate()
+            self.rotate()
         self.rect.x = self.x_pos
         self.rect.y = self.y_pos
 

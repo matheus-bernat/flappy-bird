@@ -92,8 +92,8 @@ class GameState:
 
     def give_points(self):
         for obstacle in self.obstacles_list:
-            if obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x < 0 and \
-                obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
+            if obstacle.rect.x + (obstacle.rect.width/2) - self.flappy_bird.rect.x < 0 and \
+                obstacle.rect.x + (obstacle.rect.width/2) - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
                 self.flappy_bird.score += 0.5
 
     def end_game(self):

@@ -9,13 +9,13 @@ class Bird(pygame.sprite.Sprite):
         self.bird_width = width
         self.bird_height = height
         self.y_vel = y_vel
-        self.alive = True
-        self.score = 0
         self.image = pygame.transform.scale(pygame.image.load('../res/bird.png'), (48, 36))
-        #self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect() # Get the dimensions of the sprite
         self.rect.x = x_pos
         self.rect.y = y_pos
+        self.mask = pygame.mask.from_surface(self.image)
+        self.alive = True
+        self.score = 0
 
     def flap(self):
         self.y_vel = -8

@@ -10,6 +10,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x_pos
         self.rect.y = y_pos
+        self.mask = pygame.mask.from_surface(self.image)
 
     def move(self):
         self.rect.x -= self.speed

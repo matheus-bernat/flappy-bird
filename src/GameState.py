@@ -33,6 +33,7 @@ class GameState:
         self.score_handler = ScoreHandler()
         self.curr_st_str = "game"
         self.name = "game"
+        #self.sound = pygame.mixer.Sound('../res/fart-01.ogg')
 
     def draw(self):
         self.game_window.fill(0) # clear screen
@@ -95,6 +96,10 @@ class GameState:
             if obstacle.rect.x + (obstacle.rect.width/2) - self.flappy_bird.rect.x < 0 and \
                 obstacle.rect.x + (obstacle.rect.width/2) - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
                 self.flappy_bird.score += 0.5
+                #self.sound.play()
+                #pygame.mixer.music.load('../res/fart-01.ogg')
+                #pygame.mixer.music.play(1)
+
 
     def end_game(self):
         self.flappy_bird.kill_flappy()

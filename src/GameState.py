@@ -4,7 +4,6 @@ from ScoreHandler import ScoreHandler
 from ScrollingBackground import ScrollingBackground
 import pygame
 import Constants
-import os
 from random import randrange
 
 INIT_BIRD_X_POS = 50
@@ -23,7 +22,8 @@ IMG_OBSTACLE_TOP = '../res/obstacle_top.png'
 class GameState:
     def __init__(self, game_window):
         self.game_window = game_window
-        self.sprites_group = pygame.sprite.Group()
+        self.obstacles_sprite_group = pygame.sprite.Group()
+        self.flappy_sprite_group = pygame.sprite.Group()
         self.flappy_bird = Bird(INIT_BIRD_X_POS, INIT_BIRD_Y_POS, 0, BIRD_WIDTH, BIRD_HEIGHT)
         self.obstacles_list = []
         self.spawn_obstacles()
@@ -42,15 +42,15 @@ class GameState:
         self.game_window.fill(0) # clear screen
         text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
         self.game_window.blit(text_surface, (0, 0))
-
+        self.flappy_sprite_group.draw(self.game_window)
+        self.obstacles_sprite_group.draw(self.game_window) # draw all sprites on the game window
         self.background_sprites_group.draw(self.game_window)
         self.sprites_group.draw(self.game_window) # draw all sprites on the game window
 
     def add_sprites_to_groups(self):
-        self.sprites_group.add(self.flappy_bird)
+        self.flappy_sprite_group.add(self.flappy_bird)
         for obstacle in self.obstacles_list:
-            self.sprites_group.add(obstacle)
-        for background in self.backgrounds:
+            self.obstacles_sprite_group.add(obstacle) for background in self.backgrounds:
             self.background_sprites_group.add(background)
 
     def update(self):
@@ -73,8 +73,8 @@ class GameState:
         if not self.flappy_bird.alive:
             self.running = False
             self.reset()
-        self.draw()
         self.give_points()
+        self.draw()
 
     def check_collisions(self):
         # Bird with walls
@@ -84,10 +84,12 @@ class GameState:
             self.curr_st_str = "score"
 
         # Bird with obstacles
-        """hit_sprite = pygame.sprite.spritecollisionany(self.flappy_bird, self.sprite_group)
-        if (not hit_sprite == None):
+        hit_sprite = pygame.sprite.spritecollideany(self.flappy_bird, self.obstacles_sprite_group)
+        if not (hit_sprite == None):
+            print("died in here")
             self.flappy_bird.kill_flappy()
-            """
+            self.score_handler.add_score(self.flappy_bird.score)
+            self.curr_st_str = "score"
 
     def has_collided(self, sprite1, sprite2):
         return pygame.sprite.collide_mask(sprite1, sprite2)
@@ -99,11 +101,9 @@ class GameState:
                 obstacle_y_pos = randrange(-400, -200)
                 obstacle = Obstacle(obstacle_x_pos, obstacle_y_pos, OBSTACLE_SPEED, IMG_OBSTACLE_TOP)
                 self.obstacles_list.append(obstacle)
-                print("(obstacle_x, obstacle_y): " + str(obstacle.rect.x) + ", " + str(obstacle.rect.y))
             else:
                 obstacle = Obstacle(obstacle_x_pos, obstacle_y_pos + OBSTACLE_HEIGHT + OBSTACLE_GAP, OBSTACLE_SPEED, IMG_OBSTACLE_BOTTOM)
                 self.obstacles_list.append(obstacle)
-                print("(obstacle_x, obstacle_y): " + str(obstacle.rect.x) + ", " + str(obstacle.rect.y))
                 obstacle_x_pos += OBSTACLE_SPACING
 
     def spawn_backgrounds(self):
@@ -116,7 +116,7 @@ class GameState:
         for obstacle in self.obstacles_list:
             if obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x < 0 and \
                 obstacle.rect.x + obstacle.rect.width - self.flappy_bird.rect.x >= -OBSTACLE_SPEED:
-                self.flappy_bird.score += 1/2
+                self.flappy_bird.score += 0.5
 
     def input_handler(self):
         for event in pygame.event.get():
@@ -130,11 +130,13 @@ class GameState:
                 self.flappy_bird.score += 1
 
     def reset(self):
-        self.obstacles_list = []
-        self.spawn_obstacles()
-        self.flappy_bird.x_pos = 50
-        self.flappy_bird.y_pos = 50
-        self.flappy_bird.x_vel = 0
+        self.flappy_bird.rect.y = INIT_BIRD_Y_POS
         self.flappy_bird.y_vel = 0
         self.flappy_bird.score = 0
         self.flappy_bird.alive = True
+        self.running = True
+        self.obstacles_list.clear()
+        self.spawn_obstacles()
+        self.flappy_sprite_group.empty() # remove all sprites from group
+        self.obstacles_sprite_group.empty() # remove obstacle-sprites from group
+        self.add_sprites_to_groups()

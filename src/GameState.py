@@ -32,7 +32,7 @@ class GameState:
         self.obstacles_list = []
         self.spawn_obstacles()
         self.backgrounds = []
-        self.spawn_backgrounds(False)
+        self.spawn_backgrounds()
         self.background_sprites_group = pygame.sprite.Group()
         self.add_sprites_to_groups()
         pygame.font.init()
@@ -46,20 +46,14 @@ class GameState:
         self.spawn_stars()
 
     def draw(self):
-<<<<<<< HEAD
-        #self.background_sprites_group.draw(self.game_window)
-        self.draw_background()
-        text_surface = self.flappy_font.render('%d' % self.flappy_bird.score, False, Constants.WHITE)
-        self.game_window.blit(text_surface, (Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2))
-=======
         if SCROLLING_BACKGROUND:
+            self.game_window.fill(0)
             self.background_sprites_group.draw(self.game_window)
         else:
             self.draw_background()
             self.draw_stars(self.game_window)
-        text_surface = self.a_font.render('SCORE %d' % self.flappy_bird.score, False, [143,240,160])
-        self.game_window.blit(text_surface, (0, 0))
->>>>>>> 93289e834c295c10260570fd5e73dce9e04ad63f
+        text_surface = self.flappy_font.render('%d' % self.flappy_bird.score, False, Constants.WHITE)
+        self.game_window.blit(text_surface, (Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2))
         self.flappy_sprite_group.draw(self.game_window)
         self.obstacles_sprite_group.draw(self.game_window)
 
@@ -121,13 +115,11 @@ class GameState:
                 self.obstacles_list.append(obstacle)
                 obstacle_x_pos += OBSTACLE_SPACING
 
-    def spawn_backgrounds(self, scrolling_background):
-        if scrolling_background:
-            x_pos = 0
-            self.backgrounds.append(ScrollingBackground(x_pos, 1, False))
-            x_pos += Constants.WINDOW_WIDTH
-            self.backgrounds.append(ScrollingBackground(x_pos, 1, True))
-            return
+    def spawn_backgrounds(self):
+        x_pos = 0
+        self.backgrounds.append(ScrollingBackground(x_pos, 1, False))
+        x_pos += Constants.WINDOW_WIDTH
+        self.backgrounds.append(ScrollingBackground(x_pos, 1, True))
 
 
     def give_points(self):

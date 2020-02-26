@@ -3,10 +3,7 @@ import datetime
 import Constants
 
 def first_column(string):
-    i = 0
-    while string[i] != ",":
-        i += 1
-    return int(string[0:i])
+    return int(string[0:string.find(",")])
 
 class ScoreHandler:
     def __init__(self):

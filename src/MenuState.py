@@ -10,7 +10,7 @@ class MenuState:
         self.curr_st_str = "menu"
         self.curser_pos = 0
         pygame.font.init()
-        self.flappy_font = pygame.font.Font('../res/04B_19__.TTF', 35)
+        self.flappy_font = pygame.font.Font('res/04B_19__.TTF', 35)
 
     def input_handler(self):
         for event in pygame.event.get():
@@ -30,7 +30,7 @@ class MenuState:
                         pygame.quit()
 
     def draw(self):
-        background_surface = pygame.transform.scale((pygame.image.load('../res/background.png')), (Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT))
+        background_surface = pygame.transform.scale((pygame.image.load('res/background.png')), (Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT))
         self.window.blit(background_surface, (0, 0))
         x_pos = Constants.WINDOW_WIDTH/2 - 30
         y_pos = Constants.WINDOW_HEIGHT/2

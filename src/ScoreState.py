@@ -10,9 +10,9 @@ class ScoreState:
         self.curr_st_str = "score"
         self.curser_pos = 0
         pygame.font.init()
-        self.flappy_font = pygame.font.Font('../res/04B_19__.TTF', 20)
+        self.flappy_font = pygame.font.Font('res/04B_19__.TTF', 20)
         self.mono_font = pygame.font.SysFont('Courier', 30)
-        self.background_surface = pygame.transform.scale((pygame.image.load('../res/background.png')), (Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT))
+        self.background_surface = pygame.transform.scale((pygame.image.load('res/background.png')), (Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT))
         self.scoreboard_surface = pygame.Surface((715,500))
         self.scoreboard_surface.set_alpha(225)
         self.scoreboard_surface.fill(0)

@@ -8,7 +8,7 @@ class Bird(pygame.sprite.Sprite):
     def __init__(self, x_pos, y_pos, y_vel, width, height):
         pygame.sprite.Sprite.__init__(self)
         self.y_vel = y_vel
-        self.image = pygame.transform.scale(pygame.image.load('../res/bird.png'), (48, 36))
+        self.image = pygame.transform.scale(pygame.image.load('res/bird.png'), (48, 36))
         self.rect = self.image.get_rect() # Get the dimensions of the sprite
         self.original_image = self.image
         self.rect.x = x_pos

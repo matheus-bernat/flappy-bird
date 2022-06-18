@@ -7,7 +7,7 @@ def first_column(string):
 
 class ScoreHandler:
     def __init__(self):
-        self.scores_file_name = "../res/highscores.txt"
+        self.scores_file_name = "res/highscores.txt"
 
     def add_score(self,new_score):
         scores_file = open(self.scores_file_name, "a")

@@ -7,7 +7,7 @@ class GameLoop:
         pygame.init()
         self.window = pygame.display.set_mode((Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT))
         #self.game_state = GameState(self.window)
-        pygame.mixer.music.load('../res/crazy-frog.ogg')
+        pygame.mixer.music.load('res/crazy-frog.ogg')
         pygame.mixer.music.play(-1)
         self.state_handler = StateHandler(self.window)
 

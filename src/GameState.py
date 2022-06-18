@@ -20,8 +20,8 @@ OBSTACLE_SPEED = 3
 
 SCROLLING_BACKGROUND = False
 
-IMG_OBSTACLE_BOTTOM = '../res/obstacle_bottom.png'
-IMG_OBSTACLE_TOP = '../res/obstacle_top.png'
+IMG_OBSTACLE_BOTTOM = 'res/obstacle_bottom.png'
+IMG_OBSTACLE_TOP = 'res/obstacle_top.png'
 
 class GameState:
     def __init__(self, game_window):
@@ -38,7 +38,7 @@ class GameState:
         pygame.font.init()
         self.running = True
         self.a_font = pygame.font.SysFont('Courier', 30)
-        self.flappy_font = pygame.font.Font('../res/04B_19__.TTF', 50)
+        self.flappy_font = pygame.font.Font('res/04B_19__.TTF', 50)
         self.score_handler = ScoreHandler()
         self.curr_st_str = "game"
         self.name = "game"

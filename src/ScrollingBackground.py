@@ -4,7 +4,7 @@ class ScrollingBackground(pygame.sprite.Sprite):
     def __init__(self,x_pos,speed,orientation):
         pygame.sprite.Sprite.__init__(self)
         self.speed = speed
-        self.image = pygame.transform.scale(pygame.image.load("../res/background.png"), (WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.image = pygame.transform.scale(pygame.image.load("res/background.png"), (WINDOW_WIDTH, WINDOW_HEIGHT))
         if orientation == 0:
             self.image = pygame.transform.flip(self.image,True,False)
         self.rect = self.image.get_rect()
